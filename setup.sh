@@ -86,7 +86,7 @@ checkEnv() {
 
 installDepend() {
     ## Check for dependencies.
-    DEPENDENCIES='bash bash-completion tar tree multitail tldr trash-cli bat jq software-properties-common'
+    DEPENDENCIES='bash bash-completion tar tree multitail tldr trash-cli bat jq software-properties-common mailcap'
     echo -e "${YELLOW}Installing dependencies...${RC}"
     if [[ $PACKAGER == "pacman" ]]; then
         if ! command_exists yay && ! command_exists paru; then
