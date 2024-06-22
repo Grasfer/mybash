@@ -47,12 +47,14 @@ This `.bashrc` file is a comprehensive setup that not only enhances the shell ex
 
 
 #####
+```
 mkdir ~/.config
 sudo apt update
-sudo apt upgrade
+sudo apt upgrade  
 sudo apt-get install software-properties-common
 sudo add-apt-repository ppa:zhangsongcui3371/fastfetch
 sudo apt update
 sudo apt install fastfetch
 sudo apt install git
 sudo apt install curl
+```
