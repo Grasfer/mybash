@@ -7,11 +7,18 @@ GREEN='\e[32m'
 
 # Check if the home directory and linuxtoolbox folder exist, create them if they don't
 LINUXTOOLBOXDIR="$HOME/linuxtoolbox"
+CONFIGDIR="$HOME/.config"
 
 if [[ ! -d "$LINUXTOOLBOXDIR" ]]; then
     echo -e "${YELLOW}Creating linuxtoolbox directory: $LINUXTOOLBOXDIR${RC}"
     mkdir -p "$LINUXTOOLBOXDIR"
     echo -e "${GREEN}linuxtoolbox directory created: $LINUXTOOLBOXDIR${RC}"
+fi
+
+if [[ ! -d "$CONFIGDIR" ]]; then
+    echo -e "${YELLOW}Creating .config directory: $CONFIGDIR${RC}"
+    mkdir -p "$CONFIGDIR"
+    echo -e "${GREEN}linuxtoolbox directory created: $CONFIGDIR${RC}"
 fi
 
 if [[ ! -d "$LINUXTOOLBOXDIR/mybash" ]]; then
