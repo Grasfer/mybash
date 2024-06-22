@@ -550,23 +550,49 @@ lazyg() {
 }
 
 function hb {
-    if [ $# -eq 0 ]; then
-        echo "No file path specified."
-        return
-    elif [ ! -f "$1" ]; then
-        echo "File path does not exist."
-        return
+    # Check if jq is installed
+    if ! command -v jq &> /dev/null; then
+        echo "Error: jq is not installed. Please install jq to proceed."
+        return 1
     fi
 
-    uri="https://hb.grasfer.com/documents"
-    response=$(curl -s -X POST -d "$(cat "$1")" "$uri")
-    if [ $? -eq 0 ]; then
-        hasteKey=$(echo $response | jq -r '.key')
-        echo "https://hb.grasfer.com/$hasteKey"
-    else
-        echo "Failed to upload the document."
+    # Check if arguments are provided
+    if [ $# -eq 0 ]; then
+        echo "No file path specified."
+        return 1
     fi
+
+    # Check if the file exists
+    if [ ! -f "$1" ]; then
+        echo "File path does not exist."
+        return 1
+    fi
+
+    # Define the URI
+    uri="https://hb.grasfer.com/documents"
+
+    # Send the file content using --data-binary
+    response=$(curl -s -X POST --data-binary @"$1" "$uri")
+
+    # Check the result of the curl command
+    if [ $? -ne 0 ]; then
+        echo "Failed to upload the document."
+        return 1
+    fi
+
+    # Extract the key from the response using jq
+    hasteKey=$(echo "$response" | jq -r '.key')
+
+    # Check if the key was extracted successfully
+    if [ "$hasteKey" == "null" ] || [ -z "$hasteKey" ]; then
+        echo "Failed to retrieve the key from the response."
+        return 1
+    fi
+
+    # Output the URL
+    echo "https://hb.grasfer.com/$hasteKey"
 }
+
 
 #######################################################
 # Set the ultimate amazing command prompt
