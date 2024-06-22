@@ -558,11 +558,11 @@ function hb {
         return
     fi
 
-    uri="http://bin.christitus.com/documents"
+    uri="https://hb.grasfer.com/documents"
     response=$(curl -s -X POST -d "$(cat "$1")" "$uri")
     if [ $? -eq 0 ]; then
         hasteKey=$(echo $response | jq -r '.key')
-        echo "http://bin.christitus.com/$hasteKey"
+        echo "https://hb.grasfer.com/$hasteKey"
     else
         echo "Failed to upload the document."
     fi
