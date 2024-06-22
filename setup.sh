@@ -79,7 +79,7 @@ checkEnv() {
 
 installDepend() {
     ## Check for dependencies.
-    DEPENDENCIES='bash bash-completion tar tree multitail fastfetch tldr trash-cli'
+    DEPENDENCIES='bash bash-completion tar tree multitail fastfetch tldr trash-cli bat jq'
     echo -e "${YELLOW}Installing dependencies...${RC}"
     if [[ $PACKAGER == "pacman" ]]; then
         if ! command_exists yay && ! command_exists paru; then
@@ -102,6 +102,41 @@ installDepend() {
     else
         sudo ${PACKAGER} install -yq ${DEPENDENCIES}
     fi
+}
+
+installFastfetch() {
+    # Get the latest release information using GitHub API
+    local api_url="https://api.github.com/repos/fastfetch-cli/fastfetch/releases/latest"
+    local release_info=$(curl -s $api_url)
+    local tag_name=$(echo "$release_info" | grep "tag_name" | cut -d '"' -f 4)
+    local download_url=$(echo "$release_info" | grep "browser_download_url.*fastfetch-linux-amd64.deb" | cut -d '"' -f 4)
+
+    # Check if the download URL was found
+    if [[ -z "$download_url" ]]; then
+        echo "Failed to fetch the download URL for the latest release."
+        return 1
+    fi
+
+    # Define the output file name with the tag number
+    local output="/tmp/fastfetch-linux-amd64-$tag_name.deb"
+
+    # Download the .deb package
+    echo "Downloading Fastfetch from $download_url ..."
+    wget -O "$output" "$download_url"
+
+    # Install the downloaded package
+    echo "Installing Fastfetch..."
+    sudo dpkg -i "$output"
+
+    # Fix any dependency issues
+    echo "Fixing dependencies..."
+    sudo apt-get install -f
+
+    # Clean up the downloaded .deb package
+    echo "Cleaning up..."
+    rm "$output"
+
+    echo "Fastfetch installation complete!"
 }
 
 installStarship() {
@@ -183,6 +218,7 @@ linkConfig() {
 
 checkEnv
 installDepend
+installFastfetch
 installStarship
 installZoxide
 install_additional_dependencies
