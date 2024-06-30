@@ -1,5 +1,24 @@
 https://christitus.com/mybash/
 
+```
+mkdir -p ~/build
+cd ~/build
+git clone https://github.com/christitustech/mybash
+cd mybash
+./setup.sh
+```
+#####
+```
+mkdir ~/.config
+sudo apt update
+sudo apt upgrade  
+sudo apt-get install software-properties-common
+sudo apt update
+sudo apt install git
+sudo apt install curl
+```
+
+
 ## Overview of ChrisTitusTech's `.bashrc` Configuration
 
 The `.bashrc` file is a script that runs every time a new terminal session is started in Unix-like operating systems. It is used to configure the shell session, set up aliases, define functions, and more, making the terminal easier to use and more powerful. Below is a summary of the key sections and functionalities defined in the provided `.bashrc` file.
@@ -45,18 +64,3 @@ The `.bashrc` file is a script that runs every time a new terminal session is st
 ### Conclusion
 
 This `.bashrc` file is a comprehensive setup that not only enhances the shell experience with useful aliases and functions but also provides system-specific configurations and safety features to cater to different user needs and system types. It is designed to make the terminal more user-friendly, efficient, and powerful for an average user.
-
-
-
-#####
-```
-mkdir ~/.config
-sudo apt update
-sudo apt upgrade  
-sudo apt-get install software-properties-common
-sudo add-apt-repository ppa:zhangsongcui3371/fastfetch
-sudo apt update
-sudo apt install fastfetch
-sudo apt install git
-sudo apt install curl
-```
